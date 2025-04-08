@@ -1,6 +1,8 @@
 ---
 title: "Data Cleaning"
 format: html
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -50,6 +52,8 @@ Let's focus on the non-numeric values as a starting point:
 
 ```{r}
 snowsurvey_csv %>%
+  count(Snow_cover) %>% 
+  filter(is.na(as.numeric(Snow_cover)))
 
 ```
 
@@ -68,22 +72,27 @@ snowsurvey_csv %>%
 Interestingly, when there is a "dot" for snow cover, it is also the case for all the other covers. Let's replace those with NA since there is no supplemental information in the provided metadata about the use of dots
 
 ```{r}
-snowsurvey_fixed <- 
+snowsurvey_fixed <- snowsurvey_csv %>% 
+  mutate(Snow_cover = ifelse(Snow_cover == ".", NA, Snow_cover))
+
 ```
 
 #### `-` values
 
-Is he problem is similar with "-"?
+Is the problem is similar with "-"?
 
 ```{r}
-snowsurvey_csv 
+snowsurvey_csv %>%
+  filter(Snow_cover == "-") %>%
+  View()
 ```
 
 
 let's set it to NA:
 
 ```{r}
-snowsurvey_fixed <- 
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Snow_cover = ifelse(Snow_cover == "-", NA, Snow_cover))
 ```
 
 #### `n/a` values
@@ -99,7 +108,8 @@ snowsurvey_csv %>%
 Same pattern, let's substitute with NA:
 
 ```{r}
-snowsurvey_fixed <- 
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Snow_cover = ifelse(Snow_cover == "n/a", NA, Snow_cover))
  
 ```
 
@@ -114,7 +124,8 @@ snowsurvey_csv %>%
 
 
 ```{r}
-snowsurvey_fixed <- 
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Snow_cover = ifelse(Snow_cover == "unk", NA, Snow_cover))
 ```
 
 #### `<1` values
@@ -122,7 +133,8 @@ snowsurvey_fixed <-
 Finally What should we replace"<1" with?
 
 ```{r}
-
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Snow_cover = ifelse(Snow_cover == "<1", "0", Snow_cover))
 ```
 
 ```{r}
@@ -143,7 +155,8 @@ snowsurvey_fixed %>%
 Ok, we can do the transformation:
 
 ```{r}
-snowsurvey_fixed <- 
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Snow_cover = as.numeric(Snow_cover))
 ```
 
 Yeah we have finally a numeric column 🎉. 
@@ -154,19 +167,20 @@ Yeah we have finally a numeric column 🎉.
 We are dealing with percentages, so we should verify that all the values are between 0 and 100:
 
 ```{r}
- snowsurvey_fixed 
+ snowsurvey_fixed %>% filter(Snow_cover > 100)
 ```
 
 We have two values above 100, with an interesting 470%! ☃️ We should probably set those values to NAs:
 
 ```{r}
-snowsurvey_fixed <- 
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Snow_cover = ifelse(Snow_cover > 100, NA, Snow_cover))
 ```
 
 Let's check for negative values:
 
 ```{r}
- snowsurvey_fixed %>%
+ snowsurvey_fixed %>% filter(Snow_cover < 0)
   
 ```
 
@@ -204,7 +218,7 @@ glimpse(species_csv)
 This data set is stored in a wide format where each species has its own column. This means that every time we discover a new species we will have to add a column. In addition, a bunch of `0` are stored in this table but do not really provide any information. According to the metadata:
 
 ```
-The number of individuals seen is recorded for each species, except when individuals were not counted but the species was present (typically for very abundant species), an "X" is shown. The remaining columns list the full-name of species (birds and mammals) recorded for at least study site in at least one year.
+The number of individuals seen is recorded for each species, except when individuals were not counted but the species was present (typically for very abundant species), an "X" is shown. The remaining columns the full-name of species (birds and mammals) recorded for at least study site in at least one year.
 ```
 
 This data model is not convenient for a database, we will have to switch to a long format.
@@ -213,7 +227,13 @@ This data model is not convenient for a database, we will have to switch to a lo
 ### Data cleaning
 
 ```{r}
-species_long <- 
+species_long <- species_csv %>% 
+  pivot_longer(
+    cols = !c(Year, Site, Date, Jdate, Num_observers, All_obs_reported, Observer_hours),
+    names_to = "species",
+    values_to = "species_count",
+    values_transform = list(species_count = as.character)
+  )
 ```
 
 
@@ -221,6 +241,7 @@ We want to focus on the presence and absence of species and not the count. Let's
 
 ```{r}
 species_presence <- species_long %>%
+  mutate(species_presence = ifelse(species_count == "0", 0, 1))
   
 ```
 
