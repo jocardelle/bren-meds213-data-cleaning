@@ -22,8 +22,15 @@ snowsurvey <- read_csv(here("data/processed/snow_cover.csv"))
 ```
 
 ## Data exploration and cleaning
+```{r}
+glimpse(snowsurvey)
+```
+
+After a quick look at the data, we can see that `Water_cover`, `Land_cover`, and `Total_cover` are all characters when they should be numeric. We can clean up these columns by changing non-numerical values and values not between 0-100 to na, and converting the column to a numeric column.
 
 ### Change `Water_cover` column to numeric
+
+First, we'll clean `Water_cover`:
 
 ```{r}
 glimpse(snowsurvey)
@@ -56,6 +63,8 @@ snowsurvey_fixed <- snowsurvey_fixed %>%
 
 
 ### Set expectations for percentage for `Water_cover`
+
+Since `Water_cover` is a percentage, it should be between 0-100. We'll set values outside of this to NA. 
 ```{r}
 # Check for Water_cover values over 100
 snowsurvey_fixed %>% filter(Water_cover > 100)
@@ -72,6 +81,8 @@ snowsurvey_fixed %>% filter(Water_cover < 0)
 
 
 ### Change `Land_cover` column to numeric
+
+Next, we'll clean `Land_cover`:
 
 ```{r}
 # View values in Land_cover column
@@ -101,6 +112,9 @@ snowsurvey_fixed <- snowsurvey_fixed %>%
 ```
 
 ### Set expectations for percentage for `Land_cover`
+
+Just like we did for `Water_cover`, since `Land_cover` is a percentage, it should be between 0-100. We'll set values outside of this to NA. 
+
 ```{r}
 # Check for Land_cover values over 100
 snowsurvey_fixed %>% filter(Land_cover > 100)
@@ -116,6 +130,8 @@ snowsurvey_fixed <- snowsurvey_fixed %>%
 ```
 
 ### Check `Total_cover` column
+
+First we'll change the `Total_cover column to numeric like we did the previous two columns.
 ```{r}
 # First check for non-numeric values
 snowsurvey_fixed %>%
@@ -129,6 +145,7 @@ snowsurvey_fixed <- snowsurvey_fixed %>%
   mutate(Land_cover = ifelse(Land_cover == "n/a", NA, Land_cover)) %>% 
   mutate(Land_cover = ifelse(Land_cover == "<row r=\\64\\ spans=\\1:11\\ x14ac:dyDescent=\\0.2\\>", NA, Land_cover))
 
+
 # Check to make sure NAs are the only non-numeric value
 snowsurvey_fixed %>%
   count(Land_cover) %>% 
@@ -140,35 +157,61 @@ snowsurvey_fixed <- snowsurvey_fixed %>%
 ```
 
 ### Check that `Total_cover` is 100 and sum of `Snow_cover`, `Water_cover`, and `Land_cover`
+
+The metadata says that Total_cover should be the sum of `Snow_cover`, `Water_cover`, and `Land_cover`, and that it should always equal 100. In this section, we'll see if that followed and try to clean it. We'll first make a copy of the `Total_cover` column we have now and call it `Total_cover_original` so we don't lose important data. 
+
 ```{r}
+# Now, let's keep the copy the original total_cover column and rename it
+snowsurvey_fixed$Total_cover_original <- snowsurvey_fixed$Total_cover
+
 # View values in Total_cover
-snowsurvey_fixed %>%
-  count(Total_cover)
+print(snowsurvey_fixed %>%
+  count(Total_cover))
 
 # There are some values that are not 100
 # Recompute `Total_cover` column to ensure its the sum of the other three columns
 snowsurvey_fixed$Total_cover <- snowsurvey_fixed$Snow_cover + snowsurvey_fixed$Land_cover + snowsurvey_fixed$Water_cover
 
-# Check for values less than 100
-snowsurvey_fixed %>% filter(Total_cover < 100)
+# Lets see how many of those are equal to 100
+sum(snowsurvey_fixed$Total_cover == 100, na.rm = TRUE)
+```
 
-# The metadata only says this column should always equal 100, so change non 100 values to na
+
+Right now we have 37,395 rows in `Total_cover` that are equal to 100 out of 42,830 total rows. We can try to get more rows equal to 100. Perhaps, if two out of the three additive columns have values and the third value is NA, we can set that NA equal to the missing value to get 100. 
+
+```{r}
+# If one of the three columns is NA, change it so it'll make total_cover 100
 snowsurvey_fixed <- snowsurvey_fixed %>% 
-  mutate(Total_cover = ifelse(Total_cover < 100, NA, Total_cover))
+  mutate(
+    Snow_cover = if_else(is.na(Snow_cover) & !is.na(Water_cover) & !is.na(Land_cover), 100 - Water_cover - Land_cover, Snow_cover),
+    Water_cover = if_else(is.na(Water_cover) & !is.na(Snow_cover) & !is.na(Land_cover), 100 - Snow_cover - Land_cover, Water_cover),
+    Land_cover = if_else(is.na(Land_cover) & !is.na(Water_cover) & !is.na(Snow_cover), 100 - Water_cover - Snow_cover, Land_cover)
+  )
 
-# Check for values over 100
-snowsurvey_fixed %>% filter(Total_cover > 100)
+# Recompute `Total_cover` column again to ensure its the sum of the other three columns
+snowsurvey_fixed$Total_cover <- snowsurvey_fixed$Snow_cover + snowsurvey_fixed$Land_cover + snowsurvey_fixed$Water_cover
 
-# The metadata only says this column should always equal 100, so change non 100 values to na
+# Now lets check again how many of those are equal to 100
+sum(snowsurvey_fixed$Total_cover == 100, na.rm = TRUE)
+```
+
+We now have 37,491 rows that equal 100. We added about 100 more rows to the correct value for `Total_cover`. We can't do this for rows that have two NAs in `Snow_cover`, `Water_cover`, and `Land_cover`, because we dont know how to split up the remaining amount, so it would be more likely to lead to false data. Next, Since all of `Total_cover` is supposed to equal 100, we'll drop values less that 75 and over 125. We give a bit of a cushion for values that are close to 100 so that we dont lose too much data.
+
+```{r}
+# Change values less that 75 and over 125 to NA 
 snowsurvey_fixed <- snowsurvey_fixed %>% 
-  mutate(Total_cover = ifelse(Total_cover > 100, NA, Total_cover))
+  mutate(Total_cover = ifelse(Total_cover < 75, NA, Total_cover))
+snowsurvey_fixed <- snowsurvey_fixed %>% 
+  mutate(Total_cover = ifelse(Total_cover > 125, NA, Total_cover))
 
-# Check to make sure there are only vlaues of 100 or NA in Total_cover
+# Check to make sure there are only values of 75-125 or NA in Total_cover
 snowsurvey_fixed %>%
   count(Total_cover)
 ```
 
-### Save cleaned df to csv
+
+Now we're done cleaning our columns! We still have the original total cover values in a new column, `Total_cover_original`, and have the cleaned values in `Total_cover`. Now we'll save the cleaned df to a csv
+
 ```{r}
 # Write the file
 write_csv(snowsurvey_fixed, file.path("data", "processed", "all_cover_fixed_JosephineCardelle.csv"))
