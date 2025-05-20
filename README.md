@@ -17,3 +17,72 @@ Data on climatic conditions, prey abundance, and predators were also collected. 
 
 See `01_ASDN_Readme.txt` provided in the [course data repository](https://github.com/UCSB-Library-Research-Data-Services/bren-meds213-spring-2024-class-data) for full metadata information about this data set.
 
+## DATA & FILE OVERVIEW
+
+1. File List:
+```
+├── README.md
+├── data
+|   ├── processed
+|    ├── all_cover_fixed_JosephineCardelle.csv
+|    └── snow_cover.csv
+|   ├── raw
+|    ├── 01_ASDN_Readme.txt
+|    ├── ASDN_Daily_species.csv
+|    └── ASDN_Snow_survery.csv
+├── docs
+|   ├── data-cleaning_files/libs
+|    ├── bootstrap
+|    ├── clipboard
+|    ├── quarto-html
+|   └── data-cleaning.html
+├── data-cleaning_empty.qmd
+└── eds213_data_cleaning_assign_JosephineCardelle.qmd
+```
+
+- `data/processed/all_cover_fixed_JosephineCardelle.csv`: CSV file containing the cleaned version of `data/raw/ASDN_Snow_survey.csv`
+- `data/processed/snow_cover.csv`: CSV file containing a cleaned snow_cover column of `data/raw/ASDN_Snow_survey.csv`
+- `data/raw/01_ASDN_Readme.txt`: README file containing information relating to the raw data files
+- `data/raw/ASDN_Daily_species.csv`: Record of the species (birds and mammals) encountered during field work each day at each site
+- `data/raw/ASDN_Snow_survey.csv`: Periodic records of snow cover remaining at the site
+- `data-cleaning_empty.qmd`: file containing cleaning process for `data/processed/snow_cover.csv`
+- `eds213_data_cleaning_assign_JosephineCardelle.qmd`: file containing cleaning process for `data/processed/all_cover_fixed_JosephineCardelle.csv`
+
+2. Relationship between files, if important:
+
+3. Additional related data collected that was not included in the current
+data package:
+
+4. Are there multiple versions of the dataset? 
+
+
+## DATA-SPECIFIC INFORMATION FOR:
+
+### For the file  data/processed/all_cover_fixed_YOURNAME.csv : 
+
+1. Number of variables:
+
+2. Number of cases/rows:
+
+3. Variable List: <list variable name(s), description(s), unit(s)and value 
+labels as appropriate for each>
+
+4. Missing data codes: <list code/symbol and definition>
+
+5. Specialized formats or other abbreviations used:
+
+## SHARING/ACCESS INFORMATION
+
+1. Licenses/restrictions placed on the data:
+
+2. Links to publications that cite or use the data:
+
+3. Links to other publicly accessible locations of the data:
+
+4. Links/relationships to ancillary data sets: <any supplementary data sources 
+that support analysis or classification of the datasets, eg., plant taxonomy table.)>
+
+5. Was data derived from another source? If yes, list source(s): <list citations 
+to original sources>
+
+6. Recommended citation for the project:
