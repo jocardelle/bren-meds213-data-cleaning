@@ -89,16 +89,51 @@ the NSF Arctic Data Center (https://arcticdata.io) and is a .csv file with prefi
 
 ### For the file  data/processed/all_cover_fixed_YOURNAME.csv : 
 
-1. Number of variables:
+1. Number of variables: 12
 
-2. Number of cases/rows:
+2. Number of cases/rows: 42,830
 
 3. Variable List: <list variable name(s), description(s), unit(s)and value 
 labels as appropriate for each>
+Column name	Definition
+Site	Four-letter code of site at which data were collected
+Year	Year in which data were collected
+Date	Date on which data were collected (DD-MON-YY)
+Plot	Name of study plot on which survey was conducted
+Location	Name of dedicated snow-survey location, if applicable
+Snow_cover	Cleaned percent cover of snow, including slush (percent 0-100)
+Water_cover	Cleaned percent cover of water (percent 0-100)
+Land_cover	Cleaned percent cover of exposed land (percent 0-100)
+Total_cover	Cleaned total sum (to check the above percents; should always sum to 100)
+Observer	Person who conducted the survey
+Notes	Any relevant comments on the survey
+Total_cover_original	Original total sum in raw version of data (to check the above percents; should always sum to 100)
 
-4. Missing data codes: <list code/symbol and definition>
+5. Missing data codes: <list code/symbol and definition>
 
-5. Specialized formats or other abbreviations used:
+ASDN SITE INFO
+
+ASDN field sites are referred to by 4-letter codes in each of the data files.  General information on each site is given here.  Not all types of data are available for every site.
+
+Code	Site name	Location	Latitude	Longitude	Total Study Plot Area (ha)
+barr	Barrow	Alaska, USA	71.3	-156.6	220.4
+burn	Burntpoint Creek	Ontario, Canada	55.2	-84.3	63.0
+bylo	Bylot Island	Nunavut, Canada	73.2	-80.0	723.6
+cakr	Cape Krusenstern	Alaska, USA	67.1	-163.5	54.1
+cari	Canning River Delta	Alaska, USA	70.1	-145.8	722.0
+chau	Chaun River Delta	Chukotka, Russia	68.8	170.6	248.2
+chur	Churchill	Manitoba, Canada	58.7	-93.8	866.9
+coat	Coats Island	Nunavut, Canada	62.9	-82.5	1239.1
+colv	Colville River Delta	Alaska, USA	70.4	-150.7	324.8
+eaba	East Bay	Nunavut, Canada	64.0	-81.7	1205.5
+iglo	Igloolik	Nunavut, Canada	69.4	-81.6	59.8
+ikpi	Ikpikpuk	Alaska, USA	70.6	-154.7	174.1
+lkri	Lower Khatanga River	Krasnoyarsk, Russia	72.9	106.1	270.9
+made	Mackenzie River Delta	Northwest Territories, Canada	69.4	-135.0	667.3
+nome	Nome	Alaska, USA	64.4	-164.9	90.1
+prba	Prudhoe Bay	Alaska, USA	70.3	-148.6	120.0
+
+6. Specialized formats or other abbreviations used:
 
 ## SHARING/ACCESS INFORMATION
 
