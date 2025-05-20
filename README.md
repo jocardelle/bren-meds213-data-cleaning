@@ -40,8 +40,8 @@ See `01_ASDN_Readme.txt` provided in the [course data repository](https://github
 └── eds213_data_cleaning_assign_JosephineCardelle.qmd
 ```
 
-- `data/processed/all_cover_fixed_JosephineCardelle.csv`: CSV file containing the cleaned version of `data/raw/ASDN_Snow_survey.csv`
-- `data/processed/snow_cover.csv`: CSV file containing a cleaned snow_cover column of `data/raw/ASDN_Snow_survey.csv`
+- `data/processed/all_cover_fixed_JosephineCardelle.csv`: CSV file containing the cleaned version of periodic records of snow cover remaining at the site
+- `data/processed/snow_cover.csv`: CSV file containing a cleaned snow_cover column of periodic records of snow cover remaining at the site
 - `data/raw/01_ASDN_Readme.txt`: README file containing information relating to the raw data files
 - `data/raw/ASDN_Daily_species.csv`: Record of the species (birds and mammals) encountered during field work each day at each site
 - `data/raw/ASDN_Snow_survey.csv`: Periodic records of snow cover remaining at the site
@@ -49,12 +49,41 @@ See `01_ASDN_Readme.txt` provided in the [course data repository](https://github
 - `eds213_data_cleaning_assign_JosephineCardelle.qmd`: file containing cleaning process for `data/processed/all_cover_fixed_JosephineCardelle.csv`
 
 2. Relationship between files, if important:
+   
+- The files in the `data/processed` contain cleaned versions of `data/raw/ASDN_Snow_survey.csv`.
 
-3. Additional related data collected that was not included in the current
+4. Additional related data collected that was not included in the current
 data package:
 
-4. Are there multiple versions of the dataset? 
+The following lists data files available on the ASDN page at 
+the NSF Arctic Data Center (https://arcticdata.io) and is a .csv file with prefix "ASDN_"):
+	- Bird_captures
+	- Bird_eggs
+	- Bird_nests
+	- Bird_resights
+	- Bird_sexes
+	- Camp_info
+	- Camp_staff
+	- Daily_pred_lemm
+	- Daily_species
+	- Daily_species_effort
+	- Geodata
+	- Invert_biomass
+	- Lemming_counts
+	- Lemming_nests
+	- Lemming_trap
+	- Pred_nests
+	- Pred_point_counts
+	- Snow_survey
+	- Study_Plot	(KMZ file)
+	- Surface_water
+	- Weather_HOBO
+	- Weather_precip_manual
+	- Weather_snow_manual
 
+6. Are there multiple versions of the dataset? 
+
+- Yes, there are multiple versions of the Snow_survey dataset in this repository. The raw version can be found at `data/raw/ASDN_Snow_survey.csv`. A version with a cleaned snow_cover column can be found at `data/processed/snow_cover.csv`. A version with cleaned snow_cover, water_cover, land_cover, and total_cover columns can be found at `data/processed/all_cover_fixed_JosephineCardelle.csv`.
 
 ## DATA-SPECIFIC INFORMATION FOR:
 
