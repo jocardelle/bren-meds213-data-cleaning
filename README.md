@@ -134,6 +134,7 @@ Total_cover_original -	Original total sum in raw version of data (to check the a
 
 5. Missing data codes: <list code/symbol and definition>
 
+------------------------
 ASDN SITE INFO
 
 ASDN field sites are referred to by 4-letter codes in each of the data files.  General information on each site is given here.  Not all types of data are available for every site.
@@ -171,7 +172,7 @@ made	Mackenzie River Delta	Northwest Territories, Canada	69.4	-135.0	667.3
 nome	Nome	Alaska, USA	64.4	-164.9	90.1
 
 prba	Prudhoe Bay	Alaska, USA	70.3	-148.6	120.0
-
+------------------------
 
 6. Specialized formats or other abbreviations used:
 
