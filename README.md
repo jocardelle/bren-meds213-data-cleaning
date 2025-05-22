@@ -96,8 +96,6 @@ the NSF Arctic Data Center (https://arcticdata.io) and is a .csv file with prefi
 
 3. Variable List:
 
-------------------------
-
 Snow_survey
 
 Periodic records of snow cover remaining at the site
@@ -128,16 +126,15 @@ Notes -	Any relevant comments on the survey
 
 Total_cover_original -	Original total sum in raw version of data (to check the above percents; should always sum to 100)
 
-------------------------
 
 
 5. Missing data codes: 
 - In all data fields, a blank or "-" indicates absence of data. In some cases, this means no data were recorded; in other cases, it may be that the data were not transferred to the ASDN database by the site PI.
-
-6. Specialized formats or other abbreviations used:
 - In the cleaning of data, percentages that were recorded as ".", "-", "unk", "n/a" were all treated as absence of data.
 
-------------------------
+
+6. Specialized formats or other abbreviations used:
+
 ASDN SITE INFO
 
 ASDN field sites are referred to by 4-letter codes in each of the data files.  General information on each site is given here.  Not all types of data are available for every site.
@@ -175,7 +172,7 @@ made	Mackenzie River Delta	Northwest Territories, Canada	69.4	-135.0	667.3
 nome	Nome	Alaska, USA	64.4	-164.9	90.1
 
 prba	Prudhoe Bay	Alaska, USA	70.3	-148.6	120.0
-------------------------
+
 
 
 ## SHARING/ACCESS INFORMATION
