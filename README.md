@@ -94,8 +94,7 @@ the NSF Arctic Data Center (https://arcticdata.io) and is a .csv file with prefi
 
 2. Number of cases/rows: 42,830
 
-3. Variable List: <list variable name(s), description(s), unit(s)and value 
-labels as appropriate for each>
+3. Variable List:
 
 ------------------------
 
@@ -132,11 +131,11 @@ Total_cover_original -	Original total sum in raw version of data (to check the a
 ------------------------
 
 
-5. Missing data codes: <list code/symbol and definition>
+5. Missing data codes: 
 - In all data fields, a blank or "-" indicates absence of data. In some cases, this means no data were recorded; in other cases, it may be that the data were not transferred to the ASDN database by the site PI.
-- In the cleaning of data, percentages that were recorded as ".", "-", "unk", "n/a" were all treated as absence of data.
 
 6. Specialized formats or other abbreviations used:
+- In the cleaning of data, percentages that were recorded as ".", "-", "unk", "n/a" were all treated as absence of data.
 
 ------------------------
 ASDN SITE INFO
